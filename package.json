@@ -1,0 +1,16 @@
+{
+  "name": "qqgroupV",
+  "version": "1.0.0",
+  "description": "QQ群关系查询",
+  "main": "./src/index.js",
+  "scripts": {
+    "go": "node ./src/index.js"
+  },
+  "dependencies": {
+    "koa": "^2.5.0",
+    "koa-router": "^7.4.0",
+    "koa-static": "^4.0.2",
+    "koa2-cors": "^2.0.5",
+    "mssql": "^4.1.0"
+  }
+}

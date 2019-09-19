@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/bootstrap.css" />
+    <style>
+        html, body {
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+        }
+        .page {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+        .top {
+            width: 100%;
+            padding: 10px;
+        }
+        #content {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <title>QQ群关系可视化查询</title>
+</head>
+<body>
+    <div class="page">
+        <div class="top">
+            <form class="form-inline">
+                <div class="form-group">
+                    <select id="queryType" class="form-control">
+                        <option value="qq">查QQ号</option>
+                        <option value="group">查群号</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input id="inputNum" class="form-control" type="text" placeholder="请输入需查找的号码" />
+                </div>
+                <input id="queryBtn" type="button" class="btn btn-primary" value="查询" />
+            </form>
+        </div>
+        <div id="content">
+		<table id="mytab" border="1" cellpadding="5">
+
+        </table>
+        </div>
+    </div>
+    <script src="./js/jquery-3.3.1.js"></script>
+    <script src="./js/axios.js"></script>
+    <script>
+        async function getDataByQQNum (qqNum) {
+            let response = await axios.get("/qq/" + qqNum);
+            return response.data[0];
+        }
+		async function getListByQunNum (qunNum) {
+            let response = await axios.get("/group/" + qunNum);
+            return response.data[0];
+        }
+        $(function () {
+            let dstElement = document.getElementById("content");
+            $("#queryBtn").click(async () => {
+                let queryType = $("#queryType").val();
+                let inputNum = Number($("#inputNum").val());
+
+				let result;
+                if (queryType == "qq") {
+                    result = await getDataByQQNum(inputNum);
+                }
+                else if (queryType == "group") {
+					result = await getListByQunNum(inputNum);
+                }
+				//console.log(result);
+				//dstElement.innerHTML=JSON.stringify(result,null,'\n');
+				$("#mytab").html('');
+				if(result.length>0)
+				{
+					var $tab1 = $("#mytab");
+					for (i = 0; i < result.length; i++) {
+						$tab1.append("<tr>");
+            　          $.each(result[i], function (j, val) {   
+            　                 $("#mytab").append("<td>"+j+":"+val+"</td>");
+            　          });
+                      $tab1.append("</tr>");
+					}
+				}
+				else
+				{
+					$("#mytab").html('null');
+				}
+			});
+        });
+    </script>
+</body>
+</html>
