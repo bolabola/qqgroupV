@@ -1,8 +1,8 @@
-## QQ群关系查询
+## 步骤
 
-* attach db
-* index
-* procedue
-* sql server config
-* npm install
-* npm run start
+1. attach db
+2. index
+3. procedue
+4. sql server config
+5. npm install
+6. npm run start
